@@ -43,6 +43,10 @@ keywordVal(e){
     }
 }
 
+ numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 search(){
 
     this.setState({isLoaded:true});
@@ -239,7 +243,7 @@ search(){
                 <div className="sg-col-14-of-20 sg-col-26-of-32 sg-col-18-of-24 sg-col sg-col-22-of-28 s-breadcrumb sg-col-10-of-16 sg-col-30-of-36 sg-col-6-of-12">
                   <div className="sg-col-inner">
                     <div className="a-section a-spacing-small a-spacing-top-small">
-                      <span>1-10 of over {numFound ? numFound : '0'} results for</span><span> </span><span className="a-color-state a-text-bold">{search_key_word}</span>
+                      <span>1-10 of over {numFound ? this.numberWithCommas(numFound) : '0'} results for</span><span> </span><span className="a-color-state a-text-bold">"{search_key_word}"</span>
                     </div>
                   </div>
                 </div>
