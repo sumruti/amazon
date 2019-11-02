@@ -22,6 +22,7 @@ class App extends React.Component {
     super();
      this.state = {
        keyword:'skill',
+       search_key_word:'skill',
        isLoaded:false,
        numFound:'',
        data : []
@@ -30,21 +31,28 @@ class App extends React.Component {
 
 }
 componentDidMount() {
-  this.search();
+  this.search('no');
      
+}
+
+keywordVal(e){
+    this.setState({keyword:e.target.value})
+    if(e.keyCode === 13 && e.target.value){
+        e.preventDefault(); // Ensure it is only this code that rusn
+        this.search();
+    }
 }
 
 search(){
 
-this.setState({
-            isLoaded:true
-          
-          });
-   get_data(this.state.keyword)
+    this.setState({isLoaded:true});
+    get_data(this.state.keyword)
     
       .then(
         (result) => {
-         console.log(result.data.response);
+         if(result.data.responseHeader.params.q){
+           this.setState({search_key_word : result.data.responseHeader.params.q.split(":")[2]})
+         }
          if(result.data.response){
           this.setState({
             data: result.data.response.docs,
@@ -54,7 +62,6 @@ this.setState({
           });
 
          }
-         
           
         },
        
@@ -68,10 +75,19 @@ this.setState({
 
   }
   render(){
-    const {data,isLoaded,keyword,numFound}=this.state;
-    console.log(data);
+    const {data,isLoaded,keyword,numFound,search_key_word}=this.state;
      return (
       <div className="App">
+       {isLoaded && 
+        <div className="loader">
+           <Loader
+             type="ThreeDots"
+             color="#00BFFF"
+             height={100}
+             width={100}
+          />
+        </div>  
+       } 
       
          <header className="nav-opt-sprite nav-locale-in nav-lang-en nav-ssl nav-rec">
           <div id="navbar" cel_widget_id="Navigation-desktop-navbar" data-template="layoutSwapToolBar" role="navigation" className="nav-sprite-v1 celwidget nav-bluebeacon nav-a11y-t1 nav-packard-glow hamburger">
@@ -172,7 +188,7 @@ this.setState({
                         <label id="nav-search-label" htmlFor="twotabsearchtextbox" className="aok-offscreen">
                           Search
                         </label>
-                        <input type="text" id="twotabsearchtextbox"  className="nav-input" value={keyword} onChange={(event) => this.setState({keyword: event.target.value})} onKeyDown={(e)=>this.search(e)}/>
+                        <input type="text" id="twotabsearchtextbox"  className="nav-input" onChange={(e) => this.keywordVal(e)} onKeyDown={(e) => this.keywordVal(e)} />
                       </div>
                       <div id="nav-iss-attach" />
                     </div>
@@ -223,7 +239,7 @@ this.setState({
                 <div className="sg-col-14-of-20 sg-col-26-of-32 sg-col-18-of-24 sg-col sg-col-22-of-28 s-breadcrumb sg-col-10-of-16 sg-col-30-of-36 sg-col-6-of-12">
                   <div className="sg-col-inner">
                     <div className="a-section a-spacing-small a-spacing-top-small">
-                      <span>{numFound ? numFound : '0'} results for</span><span> </span><span className="a-color-state a-text-bold">{keyword}</span>
+                      <span>{numFound ? numFound : '0'} results for</span><span> </span><span className="a-color-state a-text-bold">{search_key_word}</span>
                     </div>
                   </div>
                 </div>
