@@ -44,13 +44,17 @@ this.setState({
     
       .then(
         (result) => {
-         console.log(result.data.response.numFound);
-         this.setState({
+         console.log(result.data.response);
+         if(result.data.response){
+          this.setState({
             data: result.data.response.docs,
             numFound: result.data.response.numFound,
             isLoaded:false
           
           });
+
+         }
+         
           
         },
        
@@ -68,16 +72,7 @@ this.setState({
     console.log(data);
      return (
       <div className="App">
-       {isLoaded && 
-        <div className="loader">
-           <Loader
-             type="ThreeDots"
-             color="#00BFFF"
-             height={100}
-             width={100}
-          />
-        </div>  
-       } 
+      
          <header className="nav-opt-sprite nav-locale-in nav-lang-en nav-ssl nav-rec">
           <div id="navbar" cel_widget_id="Navigation-desktop-navbar" data-template="layoutSwapToolBar" role="navigation" className="nav-sprite-v1 celwidget nav-bluebeacon nav-a11y-t1 nav-packard-glow hamburger">
             <div id="nav-belt">
@@ -103,14 +98,14 @@ this.setState({
                                         </span>
                                       </span>
                                     </a>*/}
-                  <a href="#" className="nav-a nav-a-2 nav-truncate  " data-nav-ref="nav_ya_signin" data-nav-role="signin" data-ux-jq-mouseenter="true" id="nav-link-accountList" tabIndex={12}>
+                  <a href="#" className="nav-a nav-a-2 nav-truncate" data-nav-ref="nav_ya_signin" data-nav-role="signin" data-ux-jq-mouseenter="true" id="nav-link-accountList" tabIndex={12}>
                   </a>
                 </div>
               </div>
               <div className="nav-fill">
                 <div id="nav-search">
                   <div id="nav-bar-left" />
-                  <form className="nav-searchbar" >
+                  <div className="nav-searchbar" >
                     <div className="nav-left">
                       <div id="nav-search-dropdown-card">
                          {/*<div className="nav-search-scope nav-sprite">
@@ -170,18 +165,18 @@ this.setState({
                           Go
                         </span>
                         <input type="button" className="nav-input"  tabIndex={10} onClick={(e)=>this.search(e)} onKeyDown={(e)=>this.search(e)} disabled={keyword==""}/>
-                      </div>
+                      </div>z
                     </div>
                     <div className="nav-fill">
                       <div className="nav-search-field ">
                         <label id="nav-search-label" htmlFor="twotabsearchtextbox" className="aok-offscreen">
                           Search
                         </label>
-                        <input type="text" id="twotabsearchtextbox"  className="nav-input" dir="auto" tabIndex={9} value={keyword} onChange={(event) => this.setState({keyword: event.target.value})}/>
+                        <input type="text" id="twotabsearchtextbox"  className="nav-input" value={keyword} onChange={(event) => this.setState({keyword: event.target.value})} onKeyDown={(e)=>this.search(e)}/>
                       </div>
                       <div id="nav-iss-attach" />
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
