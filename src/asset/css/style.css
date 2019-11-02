@@ -611,7 +611,8 @@ html.a-no-js #navbar {
 #navbar[data-template=layoutSwapToolBar] #nav-belt .nav-fill,
 #navbar[data-template=layoutSwapToolBar] #nav-belt .nav-left,
 #navbar[data-template=layoutSwapToolBar] #nav-belt .nav-right {
-	height: 43px
+	height: 4px;
+	margin-left: 5px;
 }
 
 #navbar[data-template=layoutSwapToolBar] #nav-main {

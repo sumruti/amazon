@@ -23,6 +23,7 @@ class App extends React.Component {
      this.state = {
        keyword:'skill',
        isLoaded:false,
+       numFound:'',
        data : []
       
     };
@@ -43,9 +44,10 @@ this.setState({
     
       .then(
         (result) => {
-         console.log(result.data.response.docs);
+         console.log(result.data.response.numFound);
          this.setState({
             data: result.data.response.docs,
+            numFound: result.data.response.numFound,
             isLoaded:false
           
           });
@@ -62,7 +64,7 @@ this.setState({
 
   }
   render(){
-    const {data,isLoaded,keyword}=this.state;
+    const {data,isLoaded,keyword,numFound}=this.state;
     console.log(data);
      return (
       <div className="App">
@@ -79,16 +81,16 @@ this.setState({
          <header className="nav-opt-sprite nav-locale-in nav-lang-en nav-ssl nav-rec">
           <div id="navbar" cel_widget_id="Navigation-desktop-navbar" data-template="layoutSwapToolBar" role="navigation" className="nav-sprite-v1 celwidget nav-bluebeacon nav-a11y-t1 nav-packard-glow hamburger">
             <div id="nav-belt">
-              <div className="nav-left">
-                <a href="#" aria-label="Open Menu" id="nav-hamburger-menu" role="button"><i className="hm-icon nav-sprite" /></a>
-                <div id="nav-logo">
-                  <a href="#" className="nav-logo-link" aria-label="Amazon" tabIndex={6}>
-                    <span className="nav-sprite nav-logo-base" />
-                    <span className="nav-sprite nav-logo-ext" />
-                    <span className="nav-sprite nav-logo-locale" />
-                  </a>
-                </div>
-              </div>
+              {/*<div className="nav-left">
+                              <a href="#" aria-label="Open Menu" id="nav-hamburger-menu" role="button"><i className="hm-icon nav-sprite" /></a>
+                              <div id="nav-logo">
+                                <a href="#" className="nav-logo-link" aria-label="Amazon" tabIndex={6}>
+                                  <span className="nav-sprite nav-logo-base" />
+                                  <span className="nav-sprite nav-logo-ext" />
+                                  <span className="nav-sprite nav-logo-locale" />
+                                </a>
+                              </div>
+                            </div>*/}
               <div className="nav-right">
                 <div id="nav-tools" className="layoutToolbarPadding">
                   <a href="#" id="icp-nav-flyout" className="nav-a nav-a-2 icp-link-style-2">
@@ -184,37 +186,36 @@ this.setState({
               </div>
             </div>
             <div id="nav-main" className="nav-sprite">
-              <div className="nav-left">
-                <div id="nav-global-location-slot">
-                  <span className="a-declarative" data-a-modal="{&quot;width&quot;:375,&quot;closeButton&quot;:&quot;false&quot;,&quot;popoverLabel&quot;:&quot;Choose your location&quot;,&quot;name&quot;:&quot;glow-modal&quot;,&quot;url&quot;:&quot;/gp/glow/get-address-selections.html?selectedLocationType=ADDRESS_ID&selectedLocationValue=65KPOU5DV26TOXAQYYGQG12JKAJON03IYA1CYI30NOJAKJ3PXTQ2EYA2OXYWKFDE&deviceType=desktop&pageType=Search&storeContext=gateway&quot;,&quot;footer&quot;:null,&quot;header&quot;:&quot;Choose your location&quot;}" data-action="a-modal">
-                    <a className="nav-a nav-a-2 a-popover-trigger a-declarative" tabIndex={20}>
-                      <div className="nav-sprite" id="nav-packard-glow-loc-icon" />
-                      <div id="glow-ingress-block"><span className="nav-line-1" id="glow-ingress-line1">Deliver to sumit</span><span className="nav-line-2" id="glow-ingress-line2">Mohali 160070‌</span></div>
-                    </a>
-                  </span>
-                  <input data-addnewaddress="add-new" id="unifiedLocation1ClickAddress" name="dropdown-selection" type="hidden"  /><input data-addnewaddress="add-new" id="ubbShipTo" name="dropdown-selection-ubb" type="hidden"  />
-                </div>
-              </div>
-              <div className="nav-right">
-                <div id="nav-swmslot">
-                  {/* Scheduled SWM widget failed to render */}
-                </div>
-              </div>
-              <div className="nav-fill">
-                <div id="nav-shop">
-                </div>
-                <div id="nav-xshop-container" className>
-                  <div id="nav-xshop">
-                    <a href="#" className="nav-a  " tabIndex={28}>Today's Deals</a>
-                    <a id="nav-your-amazon" href="#" className="nav-a  " tabIndex={27}><span id="nav-your-amazon-text"><span className="nav-shortened-name" /></span></a>
-                    <a href="#" className="nav-a  " tabIndex={30}>Browsing History</a>
-                    <a href="#" className="nav-a  " tabIndex={26}>Buy Again</a>
-                    <a href="#" className="nav-a  " tabIndex={31}>Gift Card Service</a>
-                    <a href="#" className="nav-a  " tabIndex={32}>Sell</a>
-                    <a href="#" className="nav-a  " tabIndex={33}>Amazon Business </a>
-                  </div>
-                </div>
-              </div>
+              {/*<div className="nav-left">
+                              <div id="nav-global-location-slot">
+                                <span className="a-declarative" data-a-modal="{&quot;width&quot;:375,&quot;closeButton&quot;:&quot;false&quot;,&quot;popoverLabel&quot;:&quot;Choose your location&quot;,&quot;name&quot;:&quot;glow-modal&quot;,&quot;url&quot;:&quot;/gp/glow/get-address-selections.html?selectedLocationType=ADDRESS_ID&selectedLocationValue=65KPOU5DV26TOXAQYYGQG12JKAJON03IYA1CYI30NOJAKJ3PXTQ2EYA2OXYWKFDE&deviceType=desktop&pageType=Search&storeContext=gateway&quot;,&quot;footer&quot;:null,&quot;header&quot;:&quot;Choose your location&quot;}" data-action="a-modal">
+                                  <a className="nav-a nav-a-2 a-popover-trigger a-declarative" tabIndex={20}>
+                                    <div className="nav-sprite" id="nav-packard-glow-loc-icon" />
+                                    <div id="glow-ingress-block"><span className="nav-line-1" id="glow-ingress-line1">Deliver to sumit</span><span className="nav-line-2" id="glow-ingress-line2">Mohali 160070‌</span></div>
+                                  </a>
+                                </span>
+                                <input data-addnewaddress="add-new" id="unifiedLocation1ClickAddress" name="dropdown-selection" type="hidden"  /><input data-addnewaddress="add-new" id="ubbShipTo" name="dropdown-selection-ubb" type="hidden"  />
+                              </div>
+                            </div>
+                            <div className="nav-right">
+                              <div id="nav-swmslot">
+                              </div>
+                            </div>
+                            <div className="nav-fill">
+                              <div id="nav-shop">
+                              </div>
+                              <div id="nav-xshop-container" className>
+                                <div id="nav-xshop">
+                                  <a href="#" className="nav-a  " tabIndex={28}>Today's Deals</a>
+                                  <a id="nav-your-amazon" href="#" className="nav-a  " tabIndex={27}><span id="nav-your-amazon-text"><span className="nav-shortened-name" /></span></a>
+                                  <a href="#" className="nav-a  " tabIndex={30}>Browsing History</a>
+                                  <a href="#" className="nav-a  " tabIndex={26}>Buy Again</a>
+                                  <a href="#" className="nav-a  " tabIndex={31}>Gift Card Service</a>
+                                  <a href="#" className="nav-a  " tabIndex={32}>Sell</a>
+                                  <a href="#" className="nav-a  " tabIndex={33}>Amazon Business </a>
+                                </div>
+                              </div>
+                            </div>*/}
             </div>
             <div id="nav-subnav-toaster" />
           </div>
@@ -227,7 +228,7 @@ this.setState({
                 <div className="sg-col-14-of-20 sg-col-26-of-32 sg-col-18-of-24 sg-col sg-col-22-of-28 s-breadcrumb sg-col-10-of-16 sg-col-30-of-36 sg-col-6-of-12">
                   <div className="sg-col-inner">
                     <div className="a-section a-spacing-small a-spacing-top-small">
-                      <span>1-16 of over 1,000 results for</span><span> </span><span className="a-color-state a-text-bold">"computer speakers for desktop pc"</span>
+                      <span>{numFound ? numFound : '0'} results for</span><span> </span><span className="a-color-state a-text-bold">{keyword}</span>
                     </div>
                   </div>
                 </div>
