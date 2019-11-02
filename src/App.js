@@ -93,16 +93,16 @@ this.setState({
                             </div>*/}
               <div className="nav-right">
                 <div id="nav-tools" className="layoutToolbarPadding">
-                  <a href="#" id="icp-nav-flyout" className="nav-a nav-a-2 icp-link-style-2">
-                    <span className="icp-nav-link-inner">
-                      <span className="nav-line-1">
-                        <span className="icp-nav-globe-mozart-t2-img-2" />
-                      </span>
-                      <span className="nav-line-2">&nbsp;
-                        <span className="nav-icon nav-arrow" />
-                      </span>
-                    </span>
-                  </a>
+                  {/*<a href="#" id="icp-nav-flyout" className="nav-a nav-a-2 icp-link-style-2">
+                                      <span className="icp-nav-link-inner">
+                                        <span className="nav-line-1">
+                                          <span className="icp-nav-globe-mozart-t2-img-2" />
+                                        </span>
+                                        <span className="nav-line-2">&nbsp;
+                                          <span className="nav-icon nav-arrow" />
+                                        </span>
+                                      </span>
+                                    </a>*/}
                   <a href="#" className="nav-a nav-a-2 nav-truncate  " data-nav-ref="nav_ya_signin" data-nav-role="signin" data-ux-jq-mouseenter="true" id="nav-link-accountList" tabIndex={12}>
                   </a>
                 </div>
@@ -177,7 +177,7 @@ this.setState({
                         <label id="nav-search-label" htmlFor="twotabsearchtextbox" className="aok-offscreen">
                           Search
                         </label>
-                        <input type="text" id="twotabsearchtextbox"  className="nav-input" dir="auto" tabIndex={9} onChange={(event) => this.setState({keyword: event.target.value})}/>
+                        <input type="text" id="twotabsearchtextbox"  className="nav-input" dir="auto" tabIndex={9} value={keyword} onChange={(event) => this.setState({keyword: event.target.value})}/>
                       </div>
                       <div id="nav-iss-attach" />
                     </div>
