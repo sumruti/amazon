@@ -21,7 +21,7 @@ class App extends React.Component {
   constructor() {
     super();
      this.state = {
-       keyword:'skill',
+       keyword:'*',
        search_key_word:'skill',
        isLoaded:false,
        numFound:'',
