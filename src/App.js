@@ -629,54 +629,54 @@ this.setState({
                                                     </a>
                                                   </h2>
                                                 </div>
-                                                <div className="a-section a-spacing-none a-spacing-top-micro">
-                                                  <div className="a-row a-size-small">
-                                                    <span aria-label="4.0 out of 5 stars">
-                                                      <span className="a-declarative" data-action="a-popover" data-a-popover="{&quot;max-width&quot;:&quot;700&quot;,&quot;closeButton&quot;:false,&quot;position&quot;:&quot;triggerBottom&quot;,&quot;url&quot;:&quot;/review/widgets/average-customer-review/popover/ref=acr_search__popover?ie=UTF8&asin=B017K7TO6G&ref=acr_search__popover&contextId=search&quot;}">
-                                                        <a href="#" className="a-popover-trigger a-declarative"><i className="a-icon a-icon-star-small a-star-small-4 aok-align-bottom"><span className="a-icon-alt">4.0 out of 5 stars</span></i><i className="a-icon a-icon-popover" /></a>
-                                                      </span>
-                                                    </span>
-                                                    <span aria-label="1,841">
-                                                      <a className="a-link-normal" target="_blank" href="/#">
-                                                        <span className="a-size-base">1,841</span>
-                                                      </a>
-                                                    </span>
-                                                  </div>
-                                                </div>
+                                                {/*<div className="a-section a-spacing-none a-spacing-top-micro">
+                                                                                                  <div className="a-row a-size-small">
+                                                                                                    <span aria-label="4.0 out of 5 stars">
+                                                                                                      <span className="a-declarative" data-action="a-popover" data-a-popover="{&quot;max-width&quot;:&quot;700&quot;,&quot;closeButton&quot;:false,&quot;position&quot;:&quot;triggerBottom&quot;,&quot;url&quot;:&quot;/review/widgets/average-customer-review/popover/ref=acr_search__popover?ie=UTF8&asin=B017K7TO6G&ref=acr_search__popover&contextId=search&quot;}">
+                                                                                                        <a href="#" className="a-popover-trigger a-declarative"><i className="a-icon a-icon-star-small a-star-small-4 aok-align-bottom"><span className="a-icon-alt">4.0 out of 5 stars</span></i><i className="a-icon a-icon-popover" /></a>
+                                                                                                      </span>
+                                                                                                    </span>
+                                                                                                    <span aria-label="1,841">
+                                                                                                      <a className="a-link-normal" target="_blank" href="/#">
+                                                                                                        <span className="a-size-base">1,841</span>
+                                                                                                      </a>
+                                                                                                    </span>
+                                                                                                  </div>
+                                                                                                </div>*/}
                                               </div>
                                             </div>
                                           </div>
-                                          <div className="sg-row">
-                                            <div className="sg-col-4-of-24 sg-col-4-of-12 sg-col-4-of-36 sg-col-4-of-28 sg-col-4-of-16 sg-col sg-col-4-of-20 sg-col-4-of-32">
-                                              <div className="sg-col-inner">
-                                                <div className="a-section a-spacing-none a-spacing-top-small">
-                                                  <div className="a-row a-size-base a-color-base">
-                                                    <div className="a-row">
-                                                      <a className="a-size-base a-link-normal s-no-hover a-text-normal" target="_blank" href="#">
-                                                        <span className="a-price" data-a-size="l" data-a-color="price"><span className="a-offscreen">₹449</span><span aria-hidden="true"><span className="a-price-symbol">₹</span><span className="a-price-whole">449</span></span></span>
-                                                        <span className="a-price a-text-price" data-a-size="b" data-a-strike="true" data-a-color="secondary"><span className="a-offscreen">₹945</span><span aria-hidden="true">₹945</span></span>
-                                                      </a>
-                                                      <span className="a-letter-space" /><span>Save ₹496 (52%)</span><span className="a-letter-space" />
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div className="a-section a-spacing-none a-spacing-top-micro">
-                                                  <div className="a-row a-size-base a-color-secondary s-align-children-center">
-                                                    <div className="a-row s-align-children-center">
-                                                      <span aria-label="Get it by Monday, November 4">
-                                                        <span>Get it by </span><span className="a-text-bold">Monday, November 4</span>
-                                                      </span>
-                                                    </div>
-                                                    <div className="a-row">
-                                                      <span aria-label="FREE Delivery over ₹499. Fulfilled by Amazon.">
-                                                        <span>FREE Delivery over ₹499. Fulfilled by Amazon.</span>
-                                                      </span>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
+                                          {/*<div className="sg-row">
+                                                                                      <div className="sg-col-4-of-24 sg-col-4-of-12 sg-col-4-of-36 sg-col-4-of-28 sg-col-4-of-16 sg-col sg-col-4-of-20 sg-col-4-of-32">
+                                                                                        <div className="sg-col-inner">
+                                                                                          <div className="a-section a-spacing-none a-spacing-top-small">
+                                                                                            <div className="a-row a-size-base a-color-base">
+                                                                                              <div className="a-row">
+                                                                                                <a className="a-size-base a-link-normal s-no-hover a-text-normal" target="_blank" href="#">
+                                                                                                  <span className="a-price" data-a-size="l" data-a-color="price"><span className="a-offscreen">₹449</span><span aria-hidden="true"><span className="a-price-symbol">₹</span><span className="a-price-whole">449</span></span></span>
+                                                                                                  <span className="a-price a-text-price" data-a-size="b" data-a-strike="true" data-a-color="secondary"><span className="a-offscreen">₹945</span><span aria-hidden="true">₹945</span></span>
+                                                                                                </a>
+                                                                                                <span className="a-letter-space" /><span>Save ₹496 (52%)</span><span className="a-letter-space" />
+                                                                                              </div>
+                                                                                            </div>
+                                                                                          </div>
+                                                                                          <div className="a-section a-spacing-none a-spacing-top-micro">
+                                                                                            <div className="a-row a-size-base a-color-secondary s-align-children-center">
+                                                                                              <div className="a-row s-align-children-center">
+                                                                                                <span aria-label="Get it by Monday, November 4">
+                                                                                                  <span>Get it by </span><span className="a-text-bold">Monday, November 4</span>
+                                                                                                </span>
+                                                                                              </div>
+                                                                                              <div className="a-row">
+                                                                                                <span aria-label="FREE Delivery over ₹499. Fulfilled by Amazon.">
+                                                                                                  <span>FREE Delivery over ₹499. Fulfilled by Amazon.</span>
+                                                                                                </span>
+                                                                                              </div>
+                                                                                            </div>
+                                                                                          </div>
+                                                                                        </div>
+                                                                                      </div>
+                                                                                    </div>*/}
                                         </div>
                                       </div>
                                     </div>
