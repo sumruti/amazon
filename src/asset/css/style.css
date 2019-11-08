@@ -612,7 +612,6 @@ html.a-no-js #navbar {
 #navbar[data-template=layoutSwapToolBar] #nav-belt .nav-left,
 #navbar[data-template=layoutSwapToolBar] #nav-belt .nav-right {
 	height: 4px;
-	margin-left: 5px;
 }
 
 #navbar[data-template=layoutSwapToolBar] #nav-main {
@@ -16579,6 +16578,11 @@ div#brandsRefinements ul::-webkit-scrollbar-thumb {
   outline: 1px solid slategrey;
 }
 
+
+div#nav-search {
+    margin: auto;
+    width: 60%;
+}
 
 
 /* ******** */
