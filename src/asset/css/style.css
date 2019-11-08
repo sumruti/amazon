@@ -15824,7 +15824,7 @@ a.a-badge:hover {
 #s-refinements {
 	border-right: 2px solid #343434;
 	padding-bottom: 0;
-	padding-right: 12px;
+
 	line-height: 15px;
 	word-break: break-word
 }
@@ -16547,6 +16547,38 @@ a.a-badge:hover {
 	flex-grow: 1;
 	align-items: center
 }
+
+
+/* ******** */
+
+div#brandsRefinements{
+
+        margin-bottom: 25px!important;
+}
+
+div#brandsRefinements ul{
+	height: 200px;
+    overflow-y: scroll;
+        
+}
+
+
+div#brandsRefinements ul::-webkit-scrollbar{
+	 width: 6px;
+	 border-radius: 4px;
+        
+}
+
+div#brandsRefinements ul::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+
+div#brandsRefinements ul::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
 
 
 /* ******** */

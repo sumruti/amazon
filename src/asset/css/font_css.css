@@ -6275,7 +6275,8 @@ ul.a-nostyle {
 .a-unordered-list.a-nostyle li,
 ol.a-nostyle li,
 ul.a-nostyle li {
-	list-style: none
+	list-style: none;
+	    margin-bottom: 9px!important;
 }
 
 .a-ordered-list.a-nostyle .a-unordered-list,

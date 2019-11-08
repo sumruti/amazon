@@ -8,8 +8,12 @@ import img2 from './asset/images/image2.jpg';
 import img3 from './asset/images/image3.jpg';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from 'react-loader-spinner';
+import ReactPaginate from 'react-paginate';
+import $ from "jquery";
 
-import {get_data} from "./api/api";
+
+
+import {get_data,get_filter_data} from "./api/api";
 
 
 
@@ -25,13 +29,20 @@ class App extends React.Component {
        search_key_word:'skill',
        isLoaded:false,
        numFound:'',
-       data : []
-      
+       data : [],
+       pageCount:Math.ceil(1000 / 10),
+       examiner   : [],
+       status : [],
+       assignee:[],
+       search_examiner:'',
+       search_status:'',
+       search_assignee:'',
     };
 
 }
 componentDidMount() {
   this.search('no');
+  this.filters('no');
      
 }
 
@@ -47,16 +58,48 @@ keywordVal(e){
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+
+filters(){
+this.setState({isLoaded:true});
+  get_filter_data()
+    
+      .then(
+        (result) => {
+         
+         if(result.data.response){
+          this.setState({
+            examiner : result.data.facet_counts.facet_fields.examiner,
+            status : result.data.facet_counts.facet_fields.status,
+            assignee : result.data.facet_counts.facet_fields.assignee,
+            isLoaded:false
+          
+          });
+
+         }
+          
+        },
+       
+        (error) => {
+          this.setState({
+            isLoaded: false,
+            error
+          });
+         }
+      )
+
+}
+
 search(){
 
     this.setState({isLoaded:true});
-    get_data(this.state.keyword)
+    get_data(this.state.keyword,this.state.search_examiner,this.state.search_status,this.state.search_assignee,)
     
       .then(
         (result) => {
          if(result.data.responseHeader.params.q){
            this.setState({search_key_word : result.data.responseHeader.params.q.split(":")[2]})
          }
+         //examiner
          if(result.data.response){
           this.setState({
             data: result.data.response.docs,
@@ -71,15 +114,64 @@ search(){
        
         (error) => {
           this.setState({
-            isLoaded: true,
+            isLoaded: false,
             error
           });
         }
       )
 
-  }
+}
+
+
+examinerFilter(e){
+       
+     var arr = [];
+     $('.examiner_:checked').each(function () {
+         arr.push($(this).val());
+     });
+     this.setState({search_examiner:arr.toString()})
+
+     this.search();
+
+}
+
+statusFilter(e){
+       
+     var arr = [];
+     $('.status_val_:checked').each(function () {
+         arr.push($(this).val());
+     });
+
+
+     this.setState({search_status:arr.toString()})
+
+     //this.search();
+
+}
+
+assigneeFilter(e){
+       
+     var arr = [];
+     $('.assignee_:checked').each(function () {
+         arr.push($(this).val());
+     });
+
+
+     this.setState({search_assignee:arr.toString()})
+
+     this.search();
+
+}
+
+
   render(){
-    const {data,isLoaded,keyword,numFound,search_key_word}=this.state;
+    const {data,isLoaded,keyword,numFound,search_key_word,examiner,status,assignee}=this.state;
+
+     let commentNodes =examiner.map(function(comment, index) {
+      return <div key={index}>{comment}</div>;
+    });
+
+
      return (
       <div className="App">
        {isLoaded && 
@@ -92,6 +184,10 @@ search(){
           />
         </div>  
        } 
+
+
+       
+
       
          <header className="nav-opt-sprite nav-locale-in nav-lang-en nav-ssl nav-rec">
           <div id="navbar" cel_widget_id="Navigation-desktop-navbar" data-template="layoutSwapToolBar" role="navigation" className="nav-sprite-v1 celwidget nav-bluebeacon nav-a11y-t1 nav-packard-glow hamburger">
@@ -363,225 +459,84 @@ search(){
                         </ul>
                       </div>*/}
                       <div id="brandsRefinements" className="a-section a-spacing-none">
+
+                       <div id="p_89-title" className="a-section a-spacing-small" style={{marginBottom:"24px!important"}}>
+                          <span className="a-size-base a-color-base a-text-bold">Filter</span>
+                        </div>
                         <div id="p_89-title" className="a-section a-spacing-small">
-                          <span className="a-size-base a-color-base a-text-bold">Brand</span>
+                          <span className="a-size-base a-color-base a-text-bold">Examiner</span>
                         </div>
                         <ul aria-labelledby="p_89-title" className="a-unordered-list a-nostyle a-vertical a-spacing-medium">
-                          <li id="p_89/HEXAGEAR" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">HEXAGEAR</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Docooler" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">Docooler</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/rts" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">rts</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Farraige" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">Farraige</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Leoie" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">Leoie</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/TEQIN" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">TEQIN</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Festnight" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">Festnight</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/DECDEAL" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">DECDEAL</span>
-                              </a>
-                            </span>
-                          </li>
+
+                        {examiner   && examiner.length > 0 &&
+
+                          examiner.map((item, key) => (
+
+                              key%2==0 ?
+                           
+                                <li id="p_89/Docooler" className="a-spacing-micro" onClick={(e)=>this.examinerFilter(e)}>
+                                  <span className="a-list-item">
+                                    <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
+                                      <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" name="examiner" value={item} className="examiner_"/><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
+                                      <span className="a-size-base a-color-base"> { item }</span>
+                                    </a>
+                                  </span>
+                                </li>
+                                :
+                                ""
+
+                           ))} 
+                          
                         </ul>
                       </div>
                       <div id="brandsRefinements" className="a-section a-spacing-none">
                         <div id="p_89-title" className="a-section a-spacing-small">
-                          <span className="a-size-base a-color-base a-text-bold">Internal Solid State Drive Interface</span>
+                          <span className="a-size-base a-color-base a-text-bold">Status</span>
                         </div>
                         <ul aria-labelledby="p_89-title" className="a-unordered-list a-nostyle a-vertical a-spacing-medium">
-                          <li id="p_89/HEXAGEAR" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">SATA III (6 Gbit/s)</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Docooler" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">SATA III (3 Gbit/s)</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/rts" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"/><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">SATA III (1.5 Gbit/s)</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Farraige" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">SATA III (6 Gbit/s)</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Leoie" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">PATA (IDE)</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/TEQIN" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">PATA (IDE)</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Festnight" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">PATA (IDE)</span>
-                              </a>
-                            </span>
-                          </li>
+                           {status   && status.length > 0 &&
+
+                              status.map((item, key) => (
+
+                                 key%2==0 ?
+                                  <li id="p_89/HEXAGEAR" className="a-spacing-micro" onClick={(e)=>this.statusFilter(e)}>
+                                    <span className="a-list-item">
+                                      <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
+                                        <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  className="status_val_" value={item} /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
+                                        <span className="a-size-base a-color-base">{item}</span>
+                                      </a>
+                                    </span>
+                                  </li>
+                                  :""
+
+                              ))}    
+                            
                         </ul>
                       </div>
                       <div id="brandsRefinements" className="a-section a-spacing-none">
                         <div id="p_89-title" className="a-section a-spacing-small">
-                          <span className="a-size-base a-color-base a-text-bold">SSD Size</span>
+                          <span className="a-size-base a-color-base a-text-bold">Assignee</span>
                         </div>
                         <ul aria-labelledby="p_89-title" className="a-unordered-list a-nostyle a-vertical a-spacing-medium">
-                          <li id="p_89/HEXAGEAR" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">2 TB &amp; Up</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Docooler" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">1 to 1.9 TB</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/rts" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">960 to 999 GB</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Farraige" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">480 to 959 GB</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Leoie" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">240 to 479 GB</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/TEQIN" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">120 to 239 GB</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Festnight" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox" /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">119 GB &amp; Under</span>
-                              </a>
-                            </span>
-                          </li>
+                        {assignee  && assignee.length > 0 &&
+
+                              assignee.map((item, key) => (
+
+                                 key%2==0 ?
+                                    <li id="p_89/HEXAGEAR" className="a-spacing-micro" onClick={(e)=>this.assigneeFilter(e)}>
+                                      <span className="a-list-item">
+                                        <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
+                                          <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  className="assignee_"  value={item}/><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
+                                          <span className="a-size-base a-color-base">{item}</span>
+                                        </a>
+                                      </span>
+                                    </li>
+                                  :""
+                              ))}      
+                                    
                         </ul>
                       </div>
-                      <div id="brandsRefinements" className="a-section a-spacing-none">
-                        <div id="p_89-title" className="a-section a-spacing-small">
-                          <span className="a-size-base a-color-base a-text-bold">Data Storage Platform Support</span>
-                        </div>
-                        <ul aria-labelledby="p_89-title" className="a-unordered-list a-nostyle a-vertical a-spacing-medium">
-                          <li id="p_89/HEXAGEAR" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">Mac</span>
-                              </a>
-                            </span>
-                          </li>
-                          <li id="p_89/Docooler" className="a-spacing-micro">
-                            <span className="a-list-item">
-                              <a data-routing className="a-link-normal s-navigation-item" tabIndex={-1} href="#">
-                                <div className="a-checkbox a-checkbox-fancy s-navigation-checkbox aok-float-left"><label><input type="checkbox"  /><i className="a-icon a-icon-checkbox" /><span className="a-label a-checkbox-label" /></label></div>
-                                <span className="a-size-base a-color-base">PC</span>
-                              </a>
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
+                  
                     </div>
                   </span>
                 </div>
