@@ -94,15 +94,15 @@ filters(){
 
 search(){
 
-    this.setState({isLoaded:true});
-    const {tags}=this.state;
-   var key_word = '';
+     this.setState({isLoaded:true});
+     const {tags}=this.state;
+     var key_word = '';
 
-   if(tags.length !=0){
-      key_word = tags.toString();
-   }else{
-     key_word =this.state.keyword;
-   }
+     if(tags.length !=0){
+        key_word = tags.toString();
+     }else{
+       key_word =this.state.keyword;
+     }
 
 
     get_data(key_word,this.state.search_examiner,this.state.search_status,this.state.search_assignee,)
@@ -182,7 +182,14 @@ assigneeFilter(e){
 removeTag = (i) => {
     const newTags = [ ...this.state.tags ];
     newTags.splice(i, 1);
-    this.setState({ tags: newTags });
+    this.setState({ tags: newTags,isLoaded:true });
+    setTimeout(
+          function() {
+              this.search();
+          }
+          .bind(this),
+          1000
+      );
   }
 
 inputKeyDown = (e) => {
@@ -197,6 +204,7 @@ inputKeyDown = (e) => {
       this.setState({ tags: [...this.state.tags, val]});
       console.log(this.state.tags)
       this.tagInput.value = null;
+      this.setState({isLoaded:true});
 
       setTimeout(
           function() {
@@ -205,6 +213,7 @@ inputKeyDown = (e) => {
           .bind(this),
           1000
       );
+
      
     } else if (e.key === 'Backspace' && !val) {
       this.removeTag(this.state.tags.length - 1);
