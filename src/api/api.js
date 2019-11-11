@@ -25,6 +25,3 @@ export function get_filter_data() {
 
 
 
-
-//https://www.patentbell.com/oa_query_dossier4?q=skill&fqa=%22examiner:dennis,%20michael%20david%22
-//https://www.patentbell.com/oa_query_dossier4?q=skill&fqa=examiner:chen,%20tse%20w,chriss,%20jennifer%20a

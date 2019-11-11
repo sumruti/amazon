@@ -26,7 +26,7 @@ class App extends React.Component {
     super();
      this.state = {
        keyword:'*',
-       search_key_word:'skill',
+       search_key_word:'*',
        isLoaded:false,
        numFound:'',
        data : [],
@@ -37,6 +37,9 @@ class App extends React.Component {
        search_examiner:'',
        search_status:'',
        search_assignee:'',
+       tags: [
+        
+      ]
     };
 
 }
@@ -60,7 +63,7 @@ keywordVal(e){
 
 
 filters(){
-this.setState({isLoaded:true});
+  this.setState({isLoaded:true});
   get_filter_data()
     
       .then(
@@ -92,7 +95,17 @@ this.setState({isLoaded:true});
 search(){
 
     this.setState({isLoaded:true});
-    get_data(this.state.keyword,this.state.search_examiner,this.state.search_status,this.state.search_assignee,)
+    const {tags}=this.state;
+   var key_word = '';
+
+   if(tags.length !=0){
+      key_word = tags.toString();
+   }else{
+     key_word =this.state.keyword;
+   }
+
+
+    get_data(key_word,this.state.search_examiner,this.state.search_status,this.state.search_assignee,)
     
       .then(
         (result) => {
@@ -103,6 +116,9 @@ search(){
          if(result.data.response){
           this.setState({
             data: result.data.response.docs,
+            examiner : result.data.facet_counts.facet_fields.examiner,
+            status : result.data.facet_counts.facet_fields.status,
+            assignee : result.data.facet_counts.facet_fields.assignee,
             numFound: result.data.response.numFound,
             isLoaded:false
           
@@ -163,14 +179,49 @@ assigneeFilter(e){
 
 }
 
+removeTag = (i) => {
+    const newTags = [ ...this.state.tags ];
+    newTags.splice(i, 1);
+    this.setState({ tags: newTags });
+  }
+
+inputKeyDown = (e) => {
+    const val = e.target.value;
+
+    if (e.key === 'Enter' && val) {
+      if (this.state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
+        return;
+      }
+      console.log('yess');
+
+      this.setState({ tags: [...this.state.tags, val]});
+      console.log(this.state.tags)
+      this.tagInput.value = null;
+
+      setTimeout(
+          function() {
+              this.search();
+          }
+          .bind(this),
+          1000
+      );
+     
+    } else if (e.key === 'Backspace' && !val) {
+      this.removeTag(this.state.tags.length - 1);
+    }
+
+
+  }
+
 
   render(){
-    const {data,isLoaded,keyword,numFound,search_key_word,examiner,status,assignee}=this.state;
+    const {data,isLoaded,keyword,numFound,search_key_word,examiner,status,assignee,tags}=this.state;
 
      let commentNodes =examiner.map(function(comment, index) {
       return <div key={index}>{comment}</div>;
     });
 
+ console.log(tags.toString())
 
      return (
       <div className="App">
@@ -185,6 +236,8 @@ assigneeFilter(e){
         </div>  
        } 
 
+
+       
 
        
 
@@ -275,21 +328,30 @@ assigneeFilter(e){
                                                   </div>*/}
                       </div>
                     </div>
-                    <div className="nav-right">
+                     {/* <div className="nav-right">
                       <div className="nav-search-submit nav-sprite">
-                        <span id="nav-search-submit-text" className="nav-search-submit-text nav-sprite">
+                       <span id="nav-search-submit-text" className="nav-search-submit-text nav-sprite">
                           Go
                         </span>
-                        <input type="button" className="nav-input"  tabIndex={10} onClick={(e)=>this.search(e)} onKeyDown={(e)=>this.search(e)} disabled={keyword==""}/>
-                      </div>z
-                    </div>
-                    <div className="nav-fill">
-                      <div className="nav-search-field ">
-                        <label id="nav-search-label" htmlFor="twotabsearchtextbox" className="aok-offscreen">
-                          Search
-                        </label>
-                        <input type="text" id="twotabsearchtextbox"  className="nav-input" onChange={(e) => this.keywordVal(e)} onKeyDown={(e) => this.keywordVal(e)} />
+                       <input type="button" className="nav-input"  tabIndex={10} onClick={(e)=>this.search(e)} onKeyDown={(e)=>this.search(e)} disabled={keyword==""}/>
                       </div>
+                    </div>*/}
+                    <div className="nav-fill">
+                      {/* <div className="nav-search-field ">
+                       <label id="nav-search-label" htmlFor="twotabsearchtextbox" className="aok-offscreen">
+                                                  Search
+                                                </label>*/}
+                         <ul className="input-tag__tags">
+                            { tags.map((tag, i) => (
+                              <li key={tag}>
+                                {tag}
+                                <button type="button" onClick={() => { this.removeTag(i); }}>+</button>
+                              </li>
+                            ))}
+                            <li className="input-tag__tags__input"><input type="text" onKeyDown={this.inputKeyDown} ref={c => { this.tagInput = c; }} /></li>
+                          </ul>
+                        {/*<input type="text" id="twotabsearchtextbox"  className="nav-input" onChange={(e) => this.keywordVal(e)} onKeyDown={(e) => this.keywordVal(e)} />
+                      </div>*/}
                       <div id="nav-iss-attach" />
                     </div>
                   </div>
